@@ -1,0 +1,10 @@
+describe trivial-features here
+
+this is a proof-of-concept release.  Lots of questions:
+
+  - should we not use the keyword package for our feature symbols?
+  - how much information should we push to *features*?
+
+The various feature symbols should be documented so that various
+implementations can add these features themselves and render this
+library unnecessary.
