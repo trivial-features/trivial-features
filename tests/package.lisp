@@ -1,6 +1,6 @@
 ;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
 ;;;
-;;; trivial-features.asd --- ASDF system definition for trivial-features.
+;;; package.lisp --- TRIVIAL-FEATURES-TESTS package definition.
 ;;;
 ;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
@@ -24,28 +24,8 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl lispworks ecl cmu cormanlisp)
-(error "Sorry, your Lisp is not supported.  Patches welcome.")
-
-(asdf:defsystem trivial-features
-  ;; :description "describe here"
-  :author "Luis Oliveira <loliveira@common-lisp.net>"
-  ;; :version "0.0"
-  :licence "MIT"
-  :components
-  ((:module src
-    :serial t
-    :components
-    ((:file "common")
-     #+sbcl       (:file "tf-sbcl")
-     #+clisp      (:file "tf-clisp")
-     #+allegro    (:file "tf-allegro")
-     #+openmcl    (:file "tf-openmcl")
-     #+lispworks  (:file "tf-lispworks")
-     #+ecl        (:file "tf-ecl")
-     #+cormanlisp (:file "tf-cormanlisp")
-     #+cmu        (:file "tf-cmucl")
-     ;; #+scl        (:file "tf-scl")
-     ))))
-
-;; vim: ft=lisp et
+(defpackage #:trivial-features-tests
+  (:use #:common-lisp
+        #:trivial-features
+        #:regression-test
+        #:cffi))

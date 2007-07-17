@@ -1,6 +1,6 @@
 ;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
 ;;;
-;;; trivial-features.asd --- ASDF system definition for trivial-features.
+;;; tf-clisp.lisp --- CLISP trivial-features implementation.
 ;;;
 ;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
@@ -24,28 +24,38 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl lispworks ecl cmu cormanlisp)
-(error "Sorry, your Lisp is not supported.  Patches welcome.")
+(in-package #:trivial-features)
 
-(asdf:defsystem trivial-features
-  ;; :description "describe here"
-  :author "Luis Oliveira <loliveira@common-lisp.net>"
-  ;; :version "0.0"
-  :licence "MIT"
-  :components
-  ((:module src
-    :serial t
-    :components
-    ((:file "common")
-     #+sbcl       (:file "tf-sbcl")
-     #+clisp      (:file "tf-clisp")
-     #+allegro    (:file "tf-allegro")
-     #+openmcl    (:file "tf-openmcl")
-     #+lispworks  (:file "tf-lispworks")
-     #+ecl        (:file "tf-ecl")
-     #+cormanlisp (:file "tf-cormanlisp")
-     #+cmu        (:file "tf-cmucl")
-     ;; #+scl        (:file "tf-scl")
-     ))))
+;;; FIXME, TODO: look into FASL portability issues.
 
-;; vim: ft=lisp et
+;;;; Endianness
+
+(push-feature
+ (ffi:with-foreign-object (ptr '(ffi:c-array ffi:uint8 2))
+   (setf (ffi:memory-as ptr 'ffi:uint16 0) #xfeff)
+   (ecase (ffi:memory-as ptr 'ffi:uint8 0)
+     (#xfe '#:big-endian)
+     (#xff '#:little-endian))))
+
+;;;; OS
+
+;;; CLISP already exports:
+;;;
+;;;   :UNIX
+
+(push-feature-if '#:win32 '#:windows)
+
+;;; Push :DARWIN, :LINUX, :FREEBSD, etc.
+(push-feature (posix:uname-sysname (posix:uname)))
+
+;;; Pushing :BSD.  (Make sure this list is complete.)
+(push-feature-if '(:or #:darwin #:freebsd #:netbsd #:openbsd) '#:bsd)
+
+;;;; CPU
+
+;;; FIXME: not complete
+(push-feature
+ (cond
+   ((string= (machine-type) "X86_64") '#:x86-64)
+   ((clean-featurep '#:pc386) '#:x86)
+   ((string= (machine-type) "POWER MACINTOSH") '#:ppc)))

@@ -1,6 +1,6 @@
 ;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
 ;;;
-;;; trivial-features.asd --- ASDF system definition for trivial-features.
+;;; tf-ecl.lisp --- ECL implementation of trivial-features.
 ;;;
 ;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
@@ -24,28 +24,35 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl lispworks ecl cmu cormanlisp)
-(error "Sorry, your Lisp is not supported.  Patches welcome.")
+(in-package #:trivial-features)
 
-(asdf:defsystem trivial-features
-  ;; :description "describe here"
-  :author "Luis Oliveira <loliveira@common-lisp.net>"
-  ;; :version "0.0"
-  :licence "MIT"
-  :components
-  ((:module src
-    :serial t
-    :components
-    ((:file "common")
-     #+sbcl       (:file "tf-sbcl")
-     #+clisp      (:file "tf-clisp")
-     #+allegro    (:file "tf-allegro")
-     #+openmcl    (:file "tf-openmcl")
-     #+lispworks  (:file "tf-lispworks")
-     #+ecl        (:file "tf-ecl")
-     #+cormanlisp (:file "tf-cormanlisp")
-     #+cmu        (:file "tf-cmucl")
-     ;; #+scl        (:file "tf-scl")
-     ))))
+;;;; Endianness
 
-;; vim: ft=lisp et
+(let ((ptr (ffi:allocate-foreign-object :unsigned-short)))
+  (unwind-protect
+       (progn
+         (setf (ffi:deref-pointer ptr :unsigned-short) #xfeff)
+         (ecase (ffi:deref-pointer ptr :unsigned-byte)
+           (#xfe '#:big-endian)
+           (#xff '#:little-endian)))
+    (ffi:free-foreign-object ptr)))
+
+;;;; OS
+
+;;; ECL already exports:
+;;;
+;;;   :DARWIN
+;;;   :LINUX
+;;;   :UNIX (except on Darwin)
+;;;   :BSD
+
+(push-feature-if '#:darwin '#:unix)
+(push-feature-if '#:win32 '#:windows)
+
+;;;; CPU
+
+;;; FIXME: add more
+(push-feature
+ (cond
+   ((string= (machine-type) "POWERPC7450") '#:ppc)
+   (t (warn "Couldn't determine CPU type."))))

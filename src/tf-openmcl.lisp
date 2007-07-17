@@ -1,6 +1,6 @@
 ;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
 ;;;
-;;; trivial-features.asd --- ASDF system definition for trivial-features.
+;;; tf-openmcl.lisp --- OpenMCL trivial-features implementation.
 ;;;
 ;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
@@ -24,28 +24,23 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl lispworks ecl cmu cormanlisp)
-(error "Sorry, your Lisp is not supported.  Patches welcome.")
+(in-package #:trivial-features)
 
-(asdf:defsystem trivial-features
-  ;; :description "describe here"
-  :author "Luis Oliveira <loliveira@common-lisp.net>"
-  ;; :version "0.0"
-  :licence "MIT"
-  :components
-  ((:module src
-    :serial t
-    :components
-    ((:file "common")
-     #+sbcl       (:file "tf-sbcl")
-     #+clisp      (:file "tf-clisp")
-     #+allegro    (:file "tf-allegro")
-     #+openmcl    (:file "tf-openmcl")
-     #+lispworks  (:file "tf-lispworks")
-     #+ecl        (:file "tf-ecl")
-     #+cormanlisp (:file "tf-cormanlisp")
-     #+cmu        (:file "tf-cmucl")
-     ;; #+scl        (:file "tf-scl")
-     ))))
+;;;; Endianness
 
-;; vim: ft=lisp et
+(push-feature-if '#:big-endian-target '#:big-endian)
+(push-feature-if '#:little-endian-target '#:little-endian)
+
+;;;; OS
+
+;;; OpenMCL already exports:
+;;;
+;;;   :UNIX
+;;;   :DARWIN
+
+(push-feature-if '#:darwin '#:bsd)
+
+;;;; CPU
+
+;;; what about ppc64?
+(push-feature-if '#:ppc-target '#:ppc)

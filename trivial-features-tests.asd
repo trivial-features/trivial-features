@@ -1,6 +1,6 @@
 ;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
 ;;;
-;;; trivial-features.asd --- ASDF system definition for trivial-features.
+;;; trivial-features-tests.asd --- ASDF definition.
 ;;;
 ;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
@@ -24,28 +24,18 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl lispworks ecl cmu cormanlisp)
-(error "Sorry, your Lisp is not supported.  Patches welcome.")
+(cl:eval-when (:load-toplevel :execute)
+  (asdf:oos 'asdf:load-op 'cffi-grovel))
 
-(asdf:defsystem trivial-features
-  ;; :description "describe here"
-  :author "Luis Oliveira <loliveira@common-lisp.net>"
-  ;; :version "0.0"
-  :licence "MIT"
+(asdf:defsystem trivial-features-tests
+  :description "Unit tests for TRIVIAL-FEATURES."
+  :depends-on (trivial-features rt cffi)
   :components
-  ((:module src
+  ((:module tests
     :serial t
     :components
-    ((:file "common")
-     #+sbcl       (:file "tf-sbcl")
-     #+clisp      (:file "tf-clisp")
-     #+allegro    (:file "tf-allegro")
-     #+openmcl    (:file "tf-openmcl")
-     #+lispworks  (:file "tf-lispworks")
-     #+ecl        (:file "tf-ecl")
-     #+cormanlisp (:file "tf-cormanlisp")
-     #+cmu        (:file "tf-cmucl")
-     ;; #+scl        (:file "tf-scl")
-     ))))
+    ((:file "package")
+     (cffi-grovel:grovel-file "utsname")
+     (:file "tests")))))
 
 ;; vim: ft=lisp et

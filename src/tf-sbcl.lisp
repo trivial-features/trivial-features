@@ -1,6 +1,6 @@
 ;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
 ;;;
-;;; trivial-features.asd --- ASDF system definition for trivial-features.
+;;; tf-sbcl.lisp --- SBCL trivial-features implementation.
 ;;;
 ;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
@@ -24,28 +24,38 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl lispworks ecl cmu cormanlisp)
-(error "Sorry, your Lisp is not supported.  Patches welcome.")
+(in-package #:trivial-features)
 
-(asdf:defsystem trivial-features
-  ;; :description "describe here"
-  :author "Luis Oliveira <loliveira@common-lisp.net>"
-  ;; :version "0.0"
-  :licence "MIT"
-  :components
-  ((:module src
-    :serial t
-    :components
-    ((:file "common")
-     #+sbcl       (:file "tf-sbcl")
-     #+clisp      (:file "tf-clisp")
-     #+allegro    (:file "tf-allegro")
-     #+openmcl    (:file "tf-openmcl")
-     #+lispworks  (:file "tf-lispworks")
-     #+ecl        (:file "tf-ecl")
-     #+cormanlisp (:file "tf-cormanlisp")
-     #+cmu        (:file "tf-cmucl")
-     ;; #+scl        (:file "tf-scl")
-     ))))
+;;;; Endianness
 
-;; vim: ft=lisp et
+(push-feature
+ (sb-alien:with-alien ((ptr (array (sb-alien:unsigned 8) 2)))
+   (setf (sb-sys:sap-ref-16 (sb-alien:alien-sap ptr) 0) #xfeff)
+   (ecase (sb-sys:sap-ref-8 (sb-alien:alien-sap ptr) 0)
+     (#xfe '#:big-endian)
+     (#xff '#:little-endian))))
+
+;;;; OS
+
+;;; SBCL already exports:
+;;;
+;;;   :DARWIN
+;;;   :LINUX
+;;;   :UNIX (but see below)
+
+(push-feature-if '#:win32 '#:windows)
+
+;;; This might be a bad idea?
+(when (clean-featurep '#:win32)
+  (setf *features* (remove :unix *features*)))
+
+;;; Pushing :BSD.  (Make sure this list is complete.)
+(push-feature-if '(:or #:darwin #:freebsd #:netbsd #:openbsd) '#:bsd)
+
+;;;; CPU
+
+;;; SBCL already exports:
+;;;
+;;;   :X86
+;;;   :X86-64
+;;;   :PPC
