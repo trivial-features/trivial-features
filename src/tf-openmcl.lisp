@@ -44,3 +44,4 @@
 
 ;;; what about ppc64?
 (push-feature-if '#:ppc-target '#:ppc)
+(push-fearures-if '#:x8664-target '#:x86-64)
