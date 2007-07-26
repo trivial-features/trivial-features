@@ -1,10 +1,10 @@
 -*- Text -*-
 
-This is a first draft of a description of what symbols that should be
-present in CL:*FEATURES* for various platforms.  A possibly future
-direction of this documentation might be a CDR document, if it turns
-out to be a good idea.  (Making the language of this document much
-more precise will be necessary then.)
+This is a first ***draft*** of a description of what symbols that
+should be present in CL:*FEATURES* for various platforms.  A possibly
+future direction of this documentation might be a CDR document, if it
+turns out to be a good idea.  (Making the language of this document
+much more precise will be necessary then.)
 
 We will start by limiting ourselves to OS, CPU and endianness features
 on Windows and POSIX platforms.
@@ -50,11 +50,23 @@ Darwin)
 
 These features should be mutually exclusive:
 
+[note: it's debatable whether :X86 shouldn't also be exported on
+x86-64, and :PPC on ppc64.  SCL does that, SBCL doesn't.  Other ways
+to handle, for example, the x86/x86-64 case would be to export
+something like :PC386 in both cases or have an additional :X86-32. Or
+finally, have just :X86, :PPC, etc, and add :32-BIT and :64-BIT
+features. (I like this last one, though perhaps those names are too
+generic.)]
+
   :X86
   :X86-64
   :PPC
   :PPC64
   :MIPS
   :ALPHA
+  :SPARC
+  :SPARC64
+  :HPPA
+  :HPPA64
 
 [add more ...]
