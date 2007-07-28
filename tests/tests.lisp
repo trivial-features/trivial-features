@@ -28,24 +28,25 @@
 
 ;;;; Support Code
 
-;;; Hmm, why not just use CL-POSIX?
+#-windows
+(progn
+  ;; Hmm, why not just use CL-POSIX?
+  (defcfun ("uname" %uname) :int
+    (buf :pointer))
 
-(defcfun ("uname" %uname) :int
-  (buf :pointer))
-
-;;; Get system identification.
-(defun uname ()
-  (with-foreign-object (buf 'utsname)
-    (when (= (%uname buf) -1)
-      (error "uname() returned -1"))
-    (macrolet ((utsname-slot (name)
-                 `(foreign-string-to-lisp
-                   (foreign-slot-pointer buf 'utsname ',name))))
-      (values (utsname-slot sysname)
-              ;; (utsname-slot nodename)
-              ;; (utsname-slot release)
-              ;; (utsname-slot version)
-              (utsname-slot machine)))))
+  ;; Get system identification.
+  (defun uname ()
+    (with-foreign-object (buf 'utsname)
+      (when (= (%uname buf) -1)
+        (error "uname() returned -1"))
+      (macrolet ((utsname-slot (name)
+                   `(foreign-string-to-lisp
+                     (foreign-slot-pointer buf 'utsname ',name))))
+        (values (utsname-slot sysname)
+                ;; (utsname-slot nodename)
+                ;; (utsname-slot release)
+                ;; (utsname-slot version)
+                (utsname-slot machine))))))
 
 (defun mutually-exclusive-p (features)
   (= 1 (loop for feature in features when (featurep feature) count 1)))
@@ -63,6 +64,12 @@
 (defparameter *bsds* '(:darwin :netbsd :openbsd :freebsd))
 (defparameter *unices* (list* :linux *bsds*))
 
+#+windows
+(deftest os.1
+    (featurep (list* :or :unix *unices*))
+  nil)
+
+#-windows
 (deftest os.1
     (featurep (trivial-features::keywordify
                (trivial-features::canonicalize-symbol-name-case (uname))))
@@ -88,4 +95,13 @@
 
 (deftest cpu.1
     (mutually-exclusive-p '(:ppc :ppc64 :x86 :x86-64 :alpha :mips))
+  t)
+
+#+windows
+(deftest cpu.2
+    (case (get-system-info)
+      (:intel (featurep :x86))
+      (:amd64 (featurep :x86-64))
+      (:ia64 nil) ; add this feature later!
+      (t t))
   t)

@@ -1,6 +1,6 @@
 ;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
 ;;;
-;;; trivial-features-tests.asd --- ASDF definition.
+;;; sysinfo.lisp --- FFI definitions for GetSystemInfo().
 ;;;
 ;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
@@ -24,20 +24,26 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(cl:eval-when (:load-toplevel :execute)
-  (asdf:oos 'asdf:load-op 'cffi-grovel)
-  (asdf:oos 'asdf:load-op 'trivial-features))
+(in-package #:trivial-features-tests)
 
-(asdf:defsystem trivial-features-tests
-  :description "Unit tests for TRIVIAL-FEATURES."
-  :depends-on (trivial-features rt cffi)
-  :components
-  ((:module tests
-    :serial t
-    :components
-    ((:file "package")
-     #-windows (cffi-grovel:grovel-file "utsname")
-     #+windows (:file "sysinfo")
-     (:file "tests")))))
+(defctype word :unsigned-short)
 
-;; vim: ft=lisp et
+(defcenum (architecture word)
+  (:amd64 9)
+  (:ia64 6)
+  (:intel 0)
+  (:unknown #xffff))
+
+(defcstruct (system-info :size 36)
+  (processor-architecture architecture))
+
+(load-foreign-library "kernel32.dll")
+
+(defcfun ("GetSystemInfo" %get-system-info :cconv :stdcall) :void
+  (system-info :pointer))
+
+;;; only getting at the CPU architecture for now.
+(defun get-system-info ()
+  (with-foreign-object (si 'system-info)
+    (%get-system-info si)
+    (foreign-slot-value si 'system-info 'processor-architecture)))
