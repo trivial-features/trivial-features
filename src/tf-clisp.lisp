@@ -43,10 +43,13 @@
 ;;;
 ;;;   :UNIX
 
-(push-feature-if '#:win32 '#:windows)
-
-;;; Push :DARWIN, :LINUX, :FREEBSD, etc.
-(push-feature (posix:uname-sysname (posix:uname)))
+(push-feature
+ (if (clean-featurep '#:win32)
+     '#:windows
+     ;; Push :DARWIN, :LINUX, :FREEBSD, etc.  Ridiculous contortionism
+     ;; just to avoid interning a keyword!
+     (funcall (find-symbol (string '#:uname-sysname) '#:posix)
+              (funcall (find-symbol (string '#:uname) '#:posix)))))
 
 ;;; Pushing :BSD.  (Make sure this list is complete.)
 (push-feature-if '(:or #:darwin #:freebsd #:netbsd #:openbsd) '#:bsd)
