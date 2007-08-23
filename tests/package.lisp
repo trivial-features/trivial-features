@@ -24,8 +24,10 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(defpackage #:trivial-features-tests
-  (:use #:common-lisp
-        #:trivial-features
-        #:regression-test
-        #:cffi))
+(in-package :cl-user)
+
+(defpackage :trivial-features-tests
+  (:use :common-lisp
+        :regression-test
+        :alexandria
+        :cffi))

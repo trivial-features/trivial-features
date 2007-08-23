@@ -24,24 +24,22 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features)
+(in-package :cl-user)
 
 ;;;; Endianness
 
-(push-feature-if '#:big-endian-target '#:big-endian)
-(push-feature-if '#:little-endian-target '#:little-endian)
+(pushnew #+big-endian-target :big-endian
+         #+little-endian-target :little-endian
+         *features*)
 
 ;;;; OS
 
-;;; OpenMCL already exports:
-;;;
-;;;   :UNIX
-;;;   :DARWIN
+;;; OpenMCL already pushes :UNIX and :DARWIN.
 
-(push-feature-if '#:darwin '#:bsd)
+#+darwin (pushnew :bsd *features*)
 
 ;;;; CPU
 
 ;;; what about ppc64?
-(push-feature-if '#:ppc-target '#:ppc)
-(push-feature-if '#:x8664-target '#:x86-64)
+#+ppc-target (pushnew :ppc *features*)
+#+x8664-target (pushnew :x86-64 *features*)

@@ -24,13 +24,13 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(cl:eval-when (:load-toplevel :execute)
-  (asdf:oos 'asdf:load-op 'cffi-grovel)
-  (asdf:oos 'asdf:load-op 'trivial-features))
+(eval-when (:load-toplevel :execute)
+  (oos 'load-op 'cffi-grovel)
+  (oos 'load-op 'trivial-features))
 
-(asdf:defsystem trivial-features-tests
+(defsystem trivial-features-tests
   :description "Unit tests for TRIVIAL-FEATURES."
-  :depends-on (trivial-features rt cffi)
+  :depends-on (trivial-features rt cffi alexandria)
   :components
   ((:module tests
     :serial t
@@ -39,5 +39,10 @@
      #-windows (cffi-grovel:grovel-file "utsname")
      #+windows (:file "sysinfo")
      (:file "tests")))))
+
+(defmethod perform
+    ((o test-op) (c (eql (find-system 'trivial-features-tests))))
+  (let ((*package* (find-package 'trivial-features-tests)))
+    (funcall (find-symbol "DO-TESTS"))))
 
 ;; vim: ft=lisp et

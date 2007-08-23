@@ -24,16 +24,16 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features)
+(in-package :cl-user)
 
 ;;;; Endianness
 
-(push-feature :little-endian)
+(pushnew :little-endian *features*)
 
 ;;;; OS
 
-(push-feature :windows)
+(pushnew :windows *features*)
 
 ;;;; CPU
 
-(push-feature :x86)
+(pushnew :x86 *features*)

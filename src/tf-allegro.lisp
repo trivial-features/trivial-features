@@ -24,34 +24,27 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features)
+(in-package :cl-user)
 
 ;;;; Endianness
 
-;;; Allegro already exports:
-;;;
-;;;   :LITTLE-ENDIAN
-;;;   :BIG-ENDIAN
+;;; Allegro already pushes :LITTLE-ENDIAN and :BIG-ENDIAN.
 
 ;;;; OS
 
-;;; Allegro already exports:
-;;;
-;;;   :LINUX
-;;;   :UNIX
+;;; Allegro already pushes :LINUX and :UNIX.
 
-(push-feature-if '#:mswindows '#:windows)
-(push-feature-if '#:macosx '#:darwin)
+(pushnew #+mswindows :windows
+         #+macosx :darwin
+         *features*)
 
 ;;; Pushing :BSD.  (Make sure this list is complete.)
-(push-feature-if '(:or #:darwin #:freebsd #:netbsd #:openbsd) '#:bsd)
+#+(or macosx darwin freebsd netbsd openbsd)
+(pushnew :bsd *features*)
 
 ;;;; CPU
 
-;;; Allegro already exports:
-;;;
-;;;   :X86
-;;;   :X86-64
+;;; Allegro already pushes :X86 and :X86-64.
 
 ;;; what about PPC64?
-(push-feature-if '#:powerpc '#:ppc)
+#+powerpc (pushnew :ppc *features*)

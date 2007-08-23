@@ -24,34 +24,29 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features)
+(in-package :cl-user)
 
 ;;;; Endianness
 
-(push-feature
- (fli:with-dynamic-foreign-objects ()
-   (let ((ptr (fli:alloca :type :byte :nelems 2)))
-     (setf (fli:dereference ptr :type '(:unsigned :short)) #xfeff)
-     (ecase (fli:dereference ptr :type '(:unsigned :byte))
-       (#xfe '#:big-endian)
-       (#xff '#:little-endian)))))
+(pushnew (fli:with-dynamic-foreign-objects ()
+           (let ((ptr (fli:alloca :type :byte :nelems 2)))
+             (setf (fli:dereference ptr :type '(:unsigned :short)) #xfeff)
+             (ecase (fli:dereference ptr :type '(:unsigned :byte))
+               (#xfe (intern "BIG-ENDIAN" :keyword))
+               (#xff (intern "LITTLE-ENDIAN" :keyword)))))
+         *features*)
 
 ;;;; OS
 
-;;; Lispworks already exports:
-;;;
-;;;   :DARWIN
-;;;   :LINUX
-;;;   :UNIX
+;;; Lispworks already pushes :DARWIN, :LINUX and :UNIX.
 
-(push-feature-if '#:win32 '#:windows)
+#+win32 (pushnew :windows *features*)
 
-;;; Pushing :BSD.  (Make sure this list is complete.)
-(push-feature-if '(:or #:darwin #:freebsd #:netbsd #:openbsd) '#:bsd)
+;;; Pushing :BSD. (Make sure this list is complete.)
+#+(or darwin freebsd netbsd openbsd)
+(pushnew :bsd *features*)
 
 ;;;; CPU
 
-(when (featurep 'harp::x86)
-  (push-feature '#:x86))
-
-(push-feature-if '#:powerpc '#:ppc)
+#+harp::x86 (pushnew :x86 *features*)
+#+powerpc (pushnew :ppc *features*)

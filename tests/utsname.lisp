@@ -24,7 +24,7 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features-tests)
+(in-package :trivial-features-tests)
 
 (include "sys/utsname.h")
 

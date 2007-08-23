@@ -24,41 +24,41 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features)
-
-;;; FIXME, TODO: look into FASL portability issues.
+(in-package :cl-user)
 
 ;;;; Endianness
 
-(push-feature
- (ffi:with-foreign-object (ptr '(ffi:c-array ffi:uint8 2))
-   (setf (ffi:memory-as ptr 'ffi:uint16 0) #xfeff)
-   (ecase (ffi:memory-as ptr 'ffi:uint8 0)
-     (#xfe '#:big-endian)
-     (#xff '#:little-endian))))
+(pushnew (ffi:with-foreign-object (ptr '(ffi:c-array ffi:uint8 2))
+           (setf (ffi:memory-as ptr 'ffi:uint16 0) #xfeff)
+           (ecase (ffi:memory-as ptr 'ffi:uint8 0)
+             (#xfe (intern (symbol-name '#:big-endian) '#:keyword))
+             (#xff (intern (symbol-name '#:little-endian) '#:keyword))))
+         *features*)
 
 ;;;; OS
 
-;;; CLISP already exports:
-;;;
-;;;   :UNIX
+;;; CLISP already exports :UNIX.
 
-(push-feature
- (if (clean-featurep '#:win32)
-     '#:windows
-     ;; Push :DARWIN, :LINUX, :FREEBSD, etc.  Ridiculous contortionism
-     ;; just to avoid interning a keyword!
-     (funcall (find-symbol (string '#:uname-sysname) '#:posix)
-              (funcall (find-symbol (string '#:uname) '#:posix)))))
+#+win32 (pushnew :windows *features*)
 
-;;; Pushing :BSD.  (Make sure this list is complete.)
-(push-feature-if '(:or #:darwin #:freebsd #:netbsd #:openbsd) '#:bsd)
+#-win32
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (pushnew (read-from-string
+            (format nil ":~(~A~)" (posix:uname-sysname (posix:uname))))
+           *features*))
+
+#+(or darwin freebsd netbsd openbsd)
+(pushnew :bsd *features*)
 
 ;;;; CPU
 
 ;;; FIXME: not complete
-(push-feature
- (cond
-   ((string= (machine-type) "X86_64") '#:x86-64)
-   ((clean-featurep '#:pc386) '#:x86)
-   ((string= (machine-type) "POWER MACINTOSH") '#:ppc)))
+(pushnew (intern
+          (symbol-name
+           #+pc386 '#:x86
+           #-pc386
+           (cond
+             ((string= (machine-type) "X86_64") '#:x86-64)
+             ((string= (machine-type) "POWER MACINTOSH") '#:ppc)))
+          '#:keyword)
+         *features*)

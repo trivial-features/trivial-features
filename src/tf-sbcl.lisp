@@ -24,38 +24,26 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features)
+(in-package :cl-user)
 
 ;;;; Endianness
 
-(push-feature
- (sb-alien:with-alien ((ptr (array (sb-alien:unsigned 8) 2)))
-   (setf (sb-sys:sap-ref-16 (sb-alien:alien-sap ptr) 0) #xfeff)
-   (ecase (sb-sys:sap-ref-8 (sb-alien:alien-sap ptr) 0)
-     (#xfe '#:big-endian)
-     (#xff '#:little-endian))))
+(pushnew (sb-alien:with-alien ((ptr (array (sb-alien:unsigned 8) 2)))
+           (setf (sb-sys:sap-ref-16 (sb-alien:alien-sap ptr) 0) #xfeff)
+           (ecase (sb-sys:sap-ref-8 (sb-alien:alien-sap ptr) 0)
+             (#xfe (intern "BIG-ENDIAN" :keyword))
+             (#xff (intern "LITTLE-ENDIAN" :keyword))))
+         *features*)
 
 ;;;; OS
 
-;;; SBCL already exports:
-;;;
-;;;   :DARWIN
-;;;   :LINUX
-;;;   :UNIX (but see below)
+;;; SBCL already pushes :DARWIN, :LINUX, :BSD and :UNIX.
 
-(push-feature-if '#:win32 '#:windows)
-
-;;; This might be a bad idea?
-(when (clean-featurep '#:win32)
-  (setf *features* (remove :unix *features*)))
-
-;;; Pushing :BSD.  (Make sure this list is complete.)
-(push-feature-if '(:or #:darwin #:freebsd #:netbsd #:openbsd) '#:bsd)
+#+win32
+(progn
+  (setq *features* (remove :unix *features*)) ; bad idea?
+  (pushnew :windows *features*))
 
 ;;;; CPU
 
-;;; SBCL already exports:
-;;;
-;;;   :X86
-;;;   :X86-64
-;;;   :PPC
+;;; SBCL already pushes: :X86, :X86-64, and :PPC

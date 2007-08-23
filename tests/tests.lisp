@@ -24,13 +24,13 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features-tests)
+(in-package :trivial-features-tests)
 
 ;;;; Support Code
 
 #-windows
 (progn
-  ;; Hmm, why not just use CL-POSIX?
+  ;; Hmm, why not just use OSICAT-POSIX:UNAME?
   (defcfun ("uname" %uname) :int
     (buf :pointer))
 
@@ -71,8 +71,7 @@
 
 #-windows
 (deftest os.1
-    (featurep (trivial-features::keywordify
-               (trivial-features::canonicalize-symbol-name-case (uname))))
+    (featurep (make-keyword (string-upcase (uname))))
   t)
 
 (deftest os.2

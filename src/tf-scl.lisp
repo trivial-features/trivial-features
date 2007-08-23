@@ -24,36 +24,24 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features)
+(in-package :cl-user)
 
 ;;;; Endianness
 
-(push-feature
- (alien:with-alien ((ptr (array (alien:unsigned 8) 2)))
-   (setf (sys:sap-ref-16 (alien:alien-sap ptr) 0) #xfeff)
-   (ecase (sys:sap-ref-8 (alien:alien-sap ptr) 0)
-     (#xfe '#:big-endian)
-     (#xff '#:little-endian))))
+(pushnew (alien:with-alien ((ptr (array (alien:unsigned 8) 2)))
+           (setf (sys:sap-ref-16 (alien:alien-sap ptr) 0) #xfeff)
+           (ecase (sys:sap-ref-8 (alien:alien-sap ptr) 0)
+             (#xfe (intern (symbol-name '#:big-endian) '#:keyword))
+             (#xff (intern (symbol-name '#:little-endian) '#:keyword))))
+         *features*)
 
 ;;;; OS
 
-;;; SCL already exports:
-;;;
-;;;   :UNIX
-;;;   :BSD
-;;;   :LINUX
-;;;   :DARWIN
+;;; SCL already pushes :UNIX, :BSD, :LINUX and :DARWIN
 
 ;;;; CPU
 
-;;; SCL already exports:
-;;;
-;;;   :PPC (exports this on PPC64 too)
-;;;   :PPC64
-;;;   :X86
-;;;   :SPARC
-;;;   :SPARC64
-;;;   :HPPA
-;;;   :HPPA64
+;;; SCL already pushes :PPC (exports this on PPC64 too, though),
+;;; :PPC64, :X86, :SPARC, :SPARC64, :HPPA and :HPPA64.
 
-(push-feature-if '#:amd64 '#:x86-64)
+#+amd64 (pushnew :x86-64 *features*)

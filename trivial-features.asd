@@ -1,6 +1,6 @@
 ;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
 ;;;
-;;; trivial-features.asd --- ASDF system definition for trivial-features.
+;;; trivial-features.asd --- ASDF system definition.
 ;;;
 ;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
@@ -27,25 +27,28 @@
 #-(or sbcl clisp allegro openmcl lispworks ecl cmu scl cormanlisp)
 (error "Sorry, your Lisp is not supported.  Patches welcome.")
 
-(asdf:defsystem trivial-features
-  ;; :description "describe here"
+(defsystem trivial-features
+  :description "Ensures consistent *FEATURES* across multiple CLs."
   :author "Luis Oliveira <loliveira@common-lisp.net>"
-  ;; :version "0.0"
+  :version "0.1"
   :licence "MIT"
   :components
   ((:module src
     :serial t
     :components
-    ((:file "common")
-     #+sbcl       (:file "tf-sbcl")
+    (#+allegro    (:file "tf-allegro")
      #+clisp      (:file "tf-clisp")
-     #+allegro    (:file "tf-allegro")
-     #+openmcl    (:file "tf-openmcl")
-     #+lispworks  (:file "tf-lispworks")
-     #+ecl        (:file "tf-ecl")
-     #+cormanlisp (:file "tf-cormanlisp")
      #+cmu        (:file "tf-cmucl")
+     #+cormanlisp (:file "tf-cormanlisp")
+     #+ecl        (:file "tf-ecl")
+     #+lispworks  (:file "tf-lispworks")
+     #+openmcl    (:file "tf-openmcl")
+     #+sbcl       (:file "tf-sbcl")
      #+scl        (:file "tf-scl")
      ))))
+
+(defmethod perform ((o test-op) (c (eql (find-system 'trivial-features))))
+  (operate 'load-op 'trivial-features-tests)
+  (operate 'test-op 'trivial-features-tests))
 
 ;; vim: ft=lisp et

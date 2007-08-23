@@ -24,29 +24,21 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features)
+(in-package :cl-user)
 
 ;;;; Endianness
 
-(push-feature
- (alien:with-alien ((ptr (array (alien:unsigned 8) 2)))
-   (setf (sys:sap-ref-16 (alien:alien-sap ptr) 0) #xfeff)
-   (ecase (sys:sap-ref-8 (alien:alien-sap ptr) 0)
-     (#xfe '#:big-endian)
-     (#xff '#:little-endian))))
+(pushnew (alien:with-alien ((ptr (array (alien:unsigned 8) 2)))
+           (setf (sys:sap-ref-16 (alien:alien-sap ptr) 0) #xfeff)
+           (ecase (sys:sap-ref-8 (alien:alien-sap ptr) 0)
+             (#xfe (intern "BIG-ENDIAN" :keyword))
+             (#xff (intern "LITTLE-ENDIAN" :keyword))))
+         *features*)
 
 ;;;; OS
 
-;;; CMUCL already exports:
-;;;
-;;;   :UNIX
-;;;   :BSD
-;;;   :LINUX
-;;;   :DARWIN
+;;; CMUCL already pushes :UNIX, :BSD, :LINUX and :DARWIN.
 
 ;;;; CPU
 
-;;; CMUCL already exports:
-;;;
-;;;   :PPC
-;;;   :X86
+;;; CMUCL already pushes :PPC and :X86.

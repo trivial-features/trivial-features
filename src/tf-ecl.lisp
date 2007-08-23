@@ -24,35 +24,29 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-(in-package #:trivial-features)
+(in-package :cl-user)
 
 ;;;; Endianness
 
-(let ((ptr (ffi:allocate-foreign-object :unsigned-short)))
-  (unwind-protect
-       (progn
-         (setf (ffi:deref-pointer ptr :unsigned-short) #xfeff)
-         (ecase (ffi:deref-pointer ptr :unsigned-byte)
-           (#xfe '#:big-endian)
-           (#xff '#:little-endian)))
-    (ffi:free-foreign-object ptr)))
+(pushnew (let ((ptr (ffi:allocate-foreign-object :unsigned-short)))
+           (unwind-protect
+                (progn
+                  (setf (ffi:deref-pointer ptr :unsigned-short) #xfeff)
+                  (ecase (ffi:deref-pointer ptr :unsigned-byte)
+                    (#xfe (intern "BIG-ENDIAN" "KEYWORD"))
+                    (#xff (intern "LITTLE-ENDIAN" "KEYWORD"))))
+             (ffi:free-foreign-object ptr)))
+         *features*)
 
 ;;;; OS
 
-;;; ECL already exports:
-;;;
-;;;   :DARWIN
-;;;   :LINUX
-;;;   :UNIX (except on Darwin)
-;;;   :BSD
+;;; ECL already pushes :DARWIN, :LINUX, :UNIX (except on Darwin) and :BSD.
 
-(push-feature-if '#:darwin '#:unix)
-(push-feature-if '#:win32 '#:windows)
+(pushnew #+darwin :unix
+         #+win32 :windows
+         *features*)
 
 ;;;; CPU
 
 ;;; FIXME: add more
-(push-feature
- (cond
-   ((string= (machine-type) "POWERPC7450") '#:ppc)
-   (t (warn "Couldn't determine CPU type."))))
+#+powerpc7450 (pushnew :ppc *features*)
