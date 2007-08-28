@@ -11,7 +11,7 @@ on Windows and POSIX platforms.
 
 There are various possible implementation strategies ranging from null
 implementations (when the host Lisp already pushes the wanted feature)
-to using FFI (e.g. calling uname() to grab system information).
+to using FFI (e.g. calling uname() to grab system information.
 
 
 =============
