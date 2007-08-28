@@ -4,7 +4,7 @@ VERSION=${VERSION:=`grep :version trivial-features.asd | cut -d\" -f2`}
 TARBALL_NAME="trivial-features_$VERSION"
 TARBALL="$TARBALL_NAME.tar.gz"
 SIGNATURE="$TARBALL.asc"
-RELEASE_DIR=${RELEASE_DIR:="public_html/tarballs/"}
+RELEASE_DIR=${RELEASE_DIR:="public_html/tarballs/trivial-features/"}
 
 echo "Tagging the tree..."
 darcs tag "$VERSION"
