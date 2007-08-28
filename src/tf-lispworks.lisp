@@ -28,6 +28,11 @@
 
 ;;;; Endianness
 
+;;; Lispworks pushes :LITTLE-ENDIAN.
+
+#-little-endian (pushnew :big-endian *features*)
+
+#-(and)
 (pushnew (fli:with-dynamic-foreign-objects ()
            (let ((ptr (fli:alloca :type :byte :nelems 2)))
              (setf (fli:dereference ptr :type '(:unsigned :short)) #xfeff)
@@ -48,5 +53,6 @@
 
 ;;;; CPU
 
-#+harp::x86 (pushnew :x86 *features*)
+;;; Lispworks already pushes :X86.
+
 #+powerpc (pushnew :ppc *features*)
