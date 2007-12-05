@@ -30,7 +30,7 @@
 (defsystem trivial-features
   :description "Ensures consistent *FEATURES* across multiple CLs."
   :author "Luis Oliveira <loliveira@common-lisp.net>"
-  :version "0.1"
+  :version "0.2"
   :licence "MIT"
   :components
   ((:module src
