@@ -36,6 +36,8 @@
 
 ;;; OpenMCL already pushes :UNIX and :DARWIN.
 
+#+linux-target (pushnew :linux *features*)
+
 #+darwin (pushnew :bsd *features*)
 
 ;;;; CPU
