@@ -42,9 +42,8 @@
 
 ;;; ECL already pushes :DARWIN, :LINUX, :UNIX (except on Darwin) and :BSD.
 
-(pushnew #+darwin :unix
-         #+win32 :windows
-         *features*)
+#+darwin (pushnew :unix *features*)
+#+win32 (pushnew :windows *features*)
 
 ;;;; CPU
 
