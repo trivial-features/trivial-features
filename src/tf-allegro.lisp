@@ -34,9 +34,8 @@
 
 ;;; Allegro already pushes :LINUX and :UNIX.
 
-(pushnew #+mswindows :windows
-         #+macosx :darwin
-         *features*)
+#+mswindows (pushnew :windows *features*)
+#+macosx (pushnew :darwin *features*)
 
 ;;; Pushing :BSD.  (Make sure this list is complete.)
 #+(or macosx darwin freebsd netbsd openbsd)
