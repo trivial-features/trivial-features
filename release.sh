@@ -140,8 +140,8 @@ while true; do
     esac
 done
 
-echo "Building and uploading documentation..."
-make -C doc upload-docs
+#echo "Building and uploading documentation..."
+#make -C doc upload-docs
 
 echo "Pushing changes..."
 darcs push
