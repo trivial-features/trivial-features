@@ -49,3 +49,4 @@
 
 ;;; FIXME: add more
 #+powerpc7450 (pushnew :ppc *features*)
+#+x86_64 (pushnew :x86-64 *features*)
