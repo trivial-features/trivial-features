@@ -67,7 +67,7 @@ These features should be mutually exclusive:
 [add more ...]
 
 [note: it's debatable whether :X86 shouldn't also be exported on
-x86-64, and :PPC on ppc64.  SCL does that, SBCL doesn't.  Other ways
+x86-64, and :PPC on ppc64.  SBCL doesn't.  Other ways
 to handle, for example, the x86/x86-64 case would be to export
 something like :PC386 in both cases or have an additional :X86-32. Or
 finally, have just :X86, :PPC, etc, and add :32-BIT-CPU and

@@ -43,6 +43,6 @@
 (defmethod perform
     ((o test-op) (c (eql (find-system 'trivial-features-tests))))
   (let ((*package* (find-package 'trivial-features-tests)))
-    (funcall (find-symbol "DO-TESTS"))))
+    (funcall (find-symbol (symbol-name '#:do-tests)))))
 
 ;; vim: ft=lisp et

@@ -37,11 +37,11 @@
 
 ;;;; OS
 
-;;; SCL already pushes :UNIX, :BSD, :LINUX and :DARWIN
+;;; SCL already pushes :unix, :bsd, :linux, :hpux, and :solaris
 
 ;;;; CPU
 
-;;; SCL already pushes :PPC (exports this on PPC64 too, though),
-;;; :PPC64, :X86, :SPARC, :SPARC64, :HPPA and :HPPA64.
+;;; SCL already pushes :amd64, :x86, :sparc, :sparc64, :hppa and :hppa64.
+;;; For 64 bit CPUs the SCL pushes: :64bit
 
 #+amd64 (pushnew :x86-64 *features*)
