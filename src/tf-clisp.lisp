@@ -42,8 +42,9 @@
 
 #-win32
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (pushnew (read-from-string
-            (format nil ":~(~A~)" (posix:uname-sysname (posix:uname))))
+  (pushnew (with-standard-io-syntax
+             (read-from-string
+              (format nil ":~(~A~)" (posix:uname-sysname (posix:uname)))))
            *features*))
 
 #+(or darwin freebsd netbsd openbsd)
