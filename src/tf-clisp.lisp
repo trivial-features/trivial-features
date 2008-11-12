@@ -55,9 +55,8 @@
 ;;; FIXME: not complete
 (pushnew (intern
           (symbol-name
-           #+pc386 '#:x86
-           #-pc386
            (cond
+             ((string= (machine-type) "X86") '#:x86)
              ((string= (machine-type) "X86_64") '#:x86-64)
              ((string= (machine-type) "POWER MACINTOSH") '#:ppc)))
           '#:keyword)
