@@ -28,11 +28,10 @@
 
 ;;;; Endianness
 
-(pushnew (ffi:with-foreign-object (ptr '(ffi:c-array ffi:uint8 2))
-           (setf (ffi:memory-as ptr 'ffi:uint16 0) #xfeff)
-           (ecase (ffi:memory-as ptr 'ffi:uint8 0)
-             (#xfe (intern (symbol-name '#:big-endian) '#:keyword))
-             (#xff (intern (symbol-name '#:little-endian) '#:keyword))))
+(pushnew (intern (symbol-name (if sys::*big-endian*
+                                  '#:big-endian
+                                  '#:little-endian))
+                 '#:keyword)
          *features*)
 
 ;;;; OS
