@@ -56,8 +56,8 @@
 (pushnew (intern
           (symbol-name
            (cond
-             ((string= (machine-type) "X86") '#:x86)
              ((string= (machine-type) "X86_64") '#:x86-64)
+             ((member :pc386 *features*) '#:x86)
              ((string= (machine-type) "POWER MACINTOSH") '#:ppc)))
           '#:keyword)
          *features*)
