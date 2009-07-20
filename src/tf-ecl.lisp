@@ -2,7 +2,7 @@
 ;;;
 ;;; tf-ecl.lisp --- ECL implementation of trivial-features.
 ;;;
-;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
+;;; Copyright (C) 2007-2009, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person
 ;;; obtaining a copy of this software and associated documentation
@@ -50,3 +50,4 @@
 ;;; FIXME: add more
 #+powerpc7450 (pushnew :ppc *features*)
 #+x86_64 (pushnew :x86-64 *features*)
+#+(or i386 i486 i586 i686) (pushnew :x86 *features*)
