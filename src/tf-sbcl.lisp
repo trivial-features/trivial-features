@@ -2,7 +2,7 @@
 ;;;
 ;;; tf-sbcl.lisp --- SBCL trivial-features implementation.
 ;;;
-;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
+;;; Copyright (C) 2007-2009, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person
 ;;; obtaining a copy of this software and associated documentation
@@ -41,7 +41,9 @@
 
 #+win32
 (progn
-  (setq *features* (remove :unix *features*)) ; bad idea?
+  ;; note: as of 2008 or so, SBCL doesn't push :UNIX and :WIN32
+  ;; simultaneously anymore.
+  (setq *features* (remove :unix *features*))
   (pushnew :windows *features*))
 
 ;;;; CPU
