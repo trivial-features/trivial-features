@@ -28,7 +28,14 @@
 
 ;;;; Endianness
 
-;;; TODO
+(pushnew (let ((order (jcall "toString"
+                             (jstatic "nativeOrder" "java.nio.ByteOrder"))))
+           (cond ((string-equal order "LITTLE_ENDIAN")
+                  :little-endian)
+                 ((string-equal order "BIG_ENDIAN")
+                  :big-endian)
+                 (t (error "Byte order ~A unknown" order))))
+         *features*)
 
 ;;;; OS
 
