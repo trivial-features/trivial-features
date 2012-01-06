@@ -25,6 +25,11 @@
 ;;; DEALINGS IN THE SOFTWARE.
 
 (eval-when (:load-toplevel :execute)
+  ;; We need to load trivial-features this way before the the
+  ;; defsystem form is read for the corner case when someone loads
+  ;; trivial-features-tests before trivial-features since the system
+  ;; definition's got a #+windows reader conditional that is supplied
+  ;; by trivial-features.
   (oos 'load-op 'trivial-features))
 
 (defsystem trivial-features-tests
@@ -40,9 +45,6 @@
      #+windows (:file "sysinfo")
      (:file "tests")))))
 
-(defmethod perform
-    ((o test-op) (c (eql (find-system 'trivial-features-tests))))
+(defmethod perform ((o test-op) (c (eql (find-system 'trivial-features-tests))))
   (let ((*package* (find-package 'trivial-features-tests)))
     (funcall (find-symbol (symbol-name '#:do-tests)))))
-
-;; vim: ft=lisp et
