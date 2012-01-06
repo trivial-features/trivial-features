@@ -25,18 +25,18 @@
 ;;; DEALINGS IN THE SOFTWARE.
 
 (eval-when (:load-toplevel :execute)
-  (oos 'load-op 'cffi-grovel)
   (oos 'load-op 'trivial-features))
 
 (defsystem trivial-features-tests
   :description "Unit tests for TRIVIAL-FEATURES."
+  :defsystem-depends-on (cffi-grovel)
   :depends-on (trivial-features rt cffi alexandria)
   :components
   ((:module tests
     :serial t
     :components
     ((:file "package")
-     #-windows (cffi-grovel:grovel-file "utsname")
+     #-windows (:cffi-grovel-file "utsname")
      #+windows (:file "sysinfo")
      (:file "tests")))))
 
