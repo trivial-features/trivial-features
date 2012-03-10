@@ -1,8 +1,8 @@
 ;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
 ;;;
-;;; trivial-features.asd --- ASDF system definition.
+;;; tf-mcl.lisp --- Digitool MCL trivial-features implementation.
 ;;;
-;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
+;;; Copyright (C) 2010, Chun Tian (binghe) <binghe.lisp@gmail.com>
 ;;;
 ;;; Permission is hereby granted, free of charge, to any person
 ;;; obtaining a copy of this software and associated documentation
@@ -24,34 +24,18 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl mcl lispworks ecl cmu scl cormanlisp abcl xcl)
-(error "Sorry, your Lisp is not supported.  Patches welcome.")
+(in-package :cl-user)
 
-(defsystem trivial-features
-  :description "Ensures consistent *FEATURES* across multiple CLs."
-  :author "Luis Oliveira <loliveira@common-lisp.net>"
-  :version "0.6"
-  :licence "MIT"
-  :components
-  ((:module src
-    :serial t
-    :components
-    (#+allegro    (:file "tf-allegro")
-     #+clisp      (:file "tf-clisp")
-     #+cmu        (:file "tf-cmucl")
-     #+cormanlisp (:file "tf-cormanlisp")
-     #+ecl        (:file "tf-ecl")
-     #+lispworks  (:file "tf-lispworks")
-     #+openmcl    (:file "tf-openmcl")
-     #+mcl        (:file "tf-mcl")
-     #+sbcl       (:file "tf-sbcl")
-     #+scl        (:file "tf-scl")
-     #+abcl       (:file "tf-abcl")
-     #+xcl        (:file "tf-xcl")
-     ))))
+;;;; Endianness
 
-(defmethod perform ((o test-op) (c (eql (find-system 'trivial-features))))
-  (operate 'load-op 'trivial-features-tests)
-  (operate 'test-op 'trivial-features-tests))
+(pushnew :big-endian *features*)
 
-;; vim: ft=lisp et
+;;;; OS
+
+;;; MCL already pushes :UNIX and :DARWIN.
+
+(pushnew :bsd *features*)
+
+;;;; CPU
+
+#+ppc-target (pushnew :ppc *features*)
