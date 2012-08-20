@@ -24,7 +24,7 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl mcl lispworks ecl cmu scl cormanlisp abcl xcl)
+#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl)
 (error "Sorry, your Lisp is not supported.  Patches welcome.")
 
 (defsystem trivial-features
@@ -44,6 +44,7 @@
      #+lispworks  (:file "tf-lispworks")
      #+openmcl    (:file "tf-openmcl")
      #+mcl        (:file "tf-mcl")
+     #+mkcl       (:file "tf-mkcl")
      #+sbcl       (:file "tf-sbcl")
      #+scl        (:file "tf-scl")
      #+abcl       (:file "tf-abcl")
