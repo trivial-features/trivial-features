@@ -1,6 +1,6 @@
 ;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
 ;;;
-;;; trivial-features.asd --- ASDF system definition.
+;;; tf-mocl.lisp --- MOCL trivial-features implementation.
 ;;;
 ;;; Copyright (C) 2007, Luis Oliveira  <loliveira@common-lisp.net>
 ;;;
@@ -24,36 +24,17 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl)
-(error "Sorry, your Lisp is not supported.  Patches welcome.")
+(in-package :cl-user)
 
-(defsystem trivial-features
-  :description "Ensures consistent *FEATURES* across multiple CLs."
-  :author "Luis Oliveira <loliveira@common-lisp.net>"
-  :version "0.6"
-  :licence "MIT"
-  :components
-  ((:module src
-    :serial t
-    :components
-    (#+allegro    (:file "tf-allegro")
-     #+clisp      (:file "tf-clisp")
-     #+cmu        (:file "tf-cmucl")
-     #+cormanlisp (:file "tf-cormanlisp")
-     #+ecl        (:file "tf-ecl")
-     #+lispworks  (:file "tf-lispworks")
-     #+openmcl    (:file "tf-openmcl")
-     #+mcl        (:file "tf-mcl")
-     #+mkcl       (:file "tf-mkcl")
-     #+sbcl       (:file "tf-sbcl")
-     #+scl        (:file "tf-scl")
-     #+abcl       (:file "tf-abcl")
-     #+xcl        (:file "tf-xcl")
-     #+mocl       (:file "tf-mocl")
-     ))))
+;;;; Endianness
 
-(defmethod perform ((o test-op) (c (eql (find-system 'trivial-features))))
-  (operate 'load-op 'trivial-features-tests)
-  (operate 'test-op 'trivial-features-tests))
+;;; MOCL already pushes :LITTLE-ENDIAN.
 
-;; vim: ft=lisp et
+;;;; OS
+
+;;; MOCL already pushes :IOS, :DARWIN, :BSD, and :UNIX for iOS,
+;;; and :ANDROID, :LINUX, and :UNIX for Android.
+
+;;;; CPU
+
+;;; MOCL already pushes :ARM.
