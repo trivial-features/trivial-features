@@ -30,7 +30,6 @@
 (defsystem trivial-features
   :description "Ensures consistent *FEATURES* across multiple CLs."
   :author "Luis Oliveira <loliveira@common-lisp.net>"
-  :version "0.6"
   :licence "MIT"
   :components
   ((:module src
@@ -55,5 +54,3 @@
 (defmethod perform ((o test-op) (c (eql (find-system 'trivial-features))))
   (operate 'load-op 'trivial-features-tests)
   (operate 'test-op 'trivial-features-tests))
-
-;; vim: ft=lisp et
