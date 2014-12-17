@@ -36,7 +36,7 @@
 
   ;; Get system identification.
   (defun uname ()
-    (with-foreign-object (buf 'utsname)
+    (with-foreign-object (buf '(:struct utsname))
       (when (= (%uname buf) -1)
         (error "uname() returned -1"))
       (macrolet ((utsname-slot (name)
