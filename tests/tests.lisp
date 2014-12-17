@@ -26,6 +26,11 @@
 
 (in-package :trivial-features-tests)
 
+(defun run ()
+  (let ((*package* (find-package :trivial-features-tests)))
+    (do-tests)
+    (null (regression-test:pending-tests))))
+
 ;;;; Support Code
 
 #-windows

@@ -30,4 +30,5 @@
   (:use :common-lisp
         :regression-test
         :alexandria
-        :cffi))
+        :cffi)
+  (:export #:run))
