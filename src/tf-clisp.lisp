@@ -53,13 +53,15 @@
 ;;;; CPU
 
 ;;; FIXME: not complete
-(pushnew (intern
-          (symbol-name
-           (cond
-             ((and (string= (machine-type) "X86_64")
-                   (member :word-size=64 *features*))
-              '#:x86-64)
-             ((member :pc386 *features*) '#:x86)
-             ((string= (machine-type) "POWER MACINTOSH") '#:ppc)))
-          '#:keyword)
-         *features*)
+(let ((cpu (cond
+             ((or (member :pc386 *features*)
+                  (member (machine-type) '("x86" "x86_64")
+                          :test #'string-equal))
+              (if (member :word-size=64 *features*)
+                  '#:x86-64
+                  '#:x86))
+             ((string= (machine-type) "POWER MACINTOSH")
+              '#:ppc))))
+  (when cpu
+    (pushnew (intern (symbol-name cpu) '#:keyword)
+             *features*)))
