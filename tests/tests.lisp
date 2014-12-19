@@ -109,3 +109,17 @@
       (:ia64 nil) ; add this feature later!
       (t t))
   t)
+
+#-windows
+(deftest cpu.2
+    (let ((machine (nth-value 1 (uname))))
+      (cond ((member machine '("x86" "x86_64") :test #'string=)
+             (ecase (foreign-type-size :pointer)
+               (4 (featurep :x86))
+               (8 (featurep :x86-64))))
+            (t
+             (format *debug-io*
+                     "~&; NOTE: unhandled machine type, ~a, in CPU.2 test.~%"
+                     machine)
+             t)))
+  t)
