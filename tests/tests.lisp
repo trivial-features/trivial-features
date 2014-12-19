@@ -123,3 +123,8 @@
                      machine)
              t)))
   t)
+
+;; regression test: sometimes, silly logic leads to pushing nil to
+;; *features*.
+(deftest nil.1 (featurep nil) nil)
+(deftest nil.2 (featurep :nil) nil)
