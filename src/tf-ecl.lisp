@@ -51,3 +51,4 @@
 #+powerpc7450 (pushnew :ppc *features*)
 #+x86_64 (pushnew :x86-64 *features*)
 #+(or i386 i486 i586 i686) (pushnew :x86 *features*)
+#+(or armv5l armv6l armv7l) (pushnew :arm *features*)
