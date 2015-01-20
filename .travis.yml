@@ -24,7 +24,6 @@ install:
     fi
 
 script:
-  - cl -e '(ql:quickload :cffi-grovel)
-           (ql:quickload :trivial-features-tests)
+  - cl -e '(ql:quickload :trivial-features-tests)
            (unless (trivial-features-tests:run)
              (uiop:quit 1))'
