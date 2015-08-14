@@ -61,7 +61,12 @@
                   '#:x86-64
                   '#:x86))
              ((string= (machine-type) "POWER MACINTOSH")
-              '#:ppc))))
+              '#:ppc)
+             ((or (member (machine-type) '("SPARC" "SPARC64")
+                          :test #'string-equal))
+              (if (member :word-size=64 *features*)
+                  '#:sparc64
+                  '#:sparc)))))
   (when cpu
     (pushnew (intern (symbol-name cpu) '#:keyword)
              *features*)))
