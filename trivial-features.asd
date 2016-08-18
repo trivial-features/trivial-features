@@ -24,32 +24,33 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl)
+#-(or sbcl clasp clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl)
 (error "Sorry, your Lisp is not supported.  Patches welcome.")
 
 (defsystem trivial-features
-  :description "Ensures consistent *FEATURES* across multiple CLs."
-  :author "Luis Oliveira <loliveira@common-lisp.net>"
-  :licence "MIT"
-  :components
-  ((:module src
-    :serial t
+    :description "Ensures consistent *FEATURES* across multiple CLs."
+    :author "Luis Oliveira <loliveira@common-lisp.net>"
+    :licence "MIT"
     :components
-    (#+allegro    (:file "tf-allegro")
-     #+clisp      (:file "tf-clisp")
-     #+cmu        (:file "tf-cmucl")
-     #+cormanlisp (:file "tf-cormanlisp")
-     #+ecl        (:file "tf-ecl")
-     #+lispworks  (:file "tf-lispworks")
-     #+openmcl    (:file "tf-openmcl")
-     #+mcl        (:file "tf-mcl")
-     #+mkcl       (:file "tf-mkcl")
-     #+sbcl       (:file "tf-sbcl")
-     #+scl        (:file "tf-scl")
-     #+abcl       (:file "tf-abcl")
-     #+xcl        (:file "tf-xcl")
-     #+mocl       (:file "tf-mocl")
-     ))))
+    ((:module src
+      :serial t
+      :components
+       (#+allegro    (:file "tf-allegro")
+        #+clasp      (:file "tf-clasp")
+        #+clisp      (:file "tf-clisp")
+        #+cmu        (:file "tf-cmucl")
+        #+cormanlisp (:file "tf-cormanlisp")
+        #+ecl        (:file "tf-ecl")
+        #+lispworks  (:file "tf-lispworks")
+        #+openmcl    (:file "tf-openmcl")
+        #+mcl        (:file "tf-mcl")
+        #+mkcl       (:file "tf-mkcl")
+        #+sbcl       (:file "tf-sbcl")
+        #+scl        (:file "tf-scl")
+        #+abcl       (:file "tf-abcl")
+        #+xcl        (:file "tf-xcl")
+        #+mocl       (:file "tf-mocl")
+        ))))
 
 (defmethod perform ((o test-op) (c (eql (find-system 'trivial-features))))
   (operate 'load-op 'trivial-features-tests)
