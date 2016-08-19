@@ -49,6 +49,7 @@
      #+abcl       (:file "tf-abcl")
      #+xcl        (:file "tf-xcl")
      #+mocl       (:file "tf-mocl")
+     #+clasp      (:file "tf-clasp")
      ))))
 
 (defmethod perform ((o test-op) (c (eql (find-system 'trivial-features))))
