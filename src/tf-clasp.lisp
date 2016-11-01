@@ -2,11 +2,6 @@
 ;;;
 ;;; tf-clasp.lisp --- CLASP implementation of trivial-features.
 ;;;
-;;; Copyright protected by German Law: Urheberrechtsgesetz.
-;;; German law applies in all cases.
-;;; Legal author: Goenninger B&T UG (haftungsbeschraenkt),
-;;; in person represented by: Frank Goenninger <frank.goenninger@goenninger.net>
-;;;
 ;;; Permission is hereby granted, free of charge, to any person
 ;;; obtaining a copy of this software and associated documentation
 ;;; files (the "Software"), to deal in the Software without
