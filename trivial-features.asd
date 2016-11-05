@@ -39,7 +39,7 @@
      #+clisp      (:file "tf-clisp")
      #+cmu        (:file "tf-cmucl")
      #+cormanlisp (:file "tf-cormanlisp")
-     #+(and ecl (not clasp)) (:file "tf-ecl")
+     #+ecl        (:file "tf-ecl")
      #+lispworks  (:file "tf-lispworks")
      #+openmcl    (:file "tf-openmcl")
      #+mcl        (:file "tf-mcl")
