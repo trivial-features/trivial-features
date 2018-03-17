@@ -53,6 +53,7 @@
      #+mezzano    (:file "tf-mezzano")
      ))))
 
+#-mezzano
 (defmethod perform ((o test-op) (c (eql (find-system 'trivial-features))))
   (operate 'load-op 'trivial-features-tests)
   (operate 'test-op 'trivial-features-tests))
