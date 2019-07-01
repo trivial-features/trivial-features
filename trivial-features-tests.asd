@@ -34,6 +34,8 @@
 
 (defsystem trivial-features-tests
   :description "Unit tests for TRIVIAL-FEATURES."
+  :author "Luis Oliveira <loliveira@common-lisp.net>"
+  :licence "MIT"
   :defsystem-depends-on (cffi-grovel)
   :depends-on (trivial-features rt cffi alexandria)
   :components
