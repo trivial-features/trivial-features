@@ -24,7 +24,7 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl clasp)
+#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl clasp mezzano)
 (error "Sorry, your Lisp is not supported.  Patches welcome.")
 
 (defsystem trivial-features
@@ -50,8 +50,10 @@
      #+xcl        (:file "tf-xcl")
      #+mocl       (:file "tf-mocl")
      #+clasp      (:file "tf-clasp")
+     #+mezzano    (:file "tf-mezzano")
      ))))
 
+#-mezzano
 (defmethod perform ((o test-op) (c (eql (find-system 'trivial-features))))
   (operate 'load-op 'trivial-features-tests)
   (operate 'test-op 'trivial-features-tests))
