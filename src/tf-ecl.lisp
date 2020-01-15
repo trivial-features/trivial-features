@@ -52,4 +52,5 @@
 #+x86_64 (pushnew :x86-64 *features*)
 #+(or i386 i486 i586 i686) (pushnew :x86 *features*)
 #+(or armv5l armv6l armv7l) (pushnew :arm *features*)
+#+(or aarch64 armv8l armv8b aarch64_be) (pushnew :arm64 *features*)
 #+mipsel (pushnew :mips *features*)
