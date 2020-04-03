@@ -124,6 +124,12 @@
              t)))
   t)
 
+(deftest cpu.3
+    (ecase (foreign-type-size :pointer)
+      (4 (featurep :32-bit))
+      (8 (featurep :64-bit)))
+  t)
+
 ;; regression test: sometimes, silly logic leads to pushing nil to
 ;; *features*.
 (deftest nil.1 (featurep nil) nil)

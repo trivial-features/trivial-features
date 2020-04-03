@@ -74,6 +74,12 @@ something like `:PC386` in both cases or have an additional `:X86-32`. Or
 finally, have just `:X86`, `:PPC`, etc, and add `:32-BIT-CPU` and
 `:64-BIT-CPU` features.]
 
+### Register Size
+These features denote the size of a register on the CPU and are mutually exclusive.
+
+  - `:64-bit`
+  - `:32-bit`
+
 
 Unreferenced References
 -----------------------
