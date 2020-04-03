@@ -37,3 +37,6 @@
 ;;;; CPU
 
 ;;; XCL already pushes :X86 and :X86-64.
+(if (< 32 (logcount most-positive-fixnum))
+    (pushnew :64-bit *features*)
+    (pushnew :32-bit *features*))
