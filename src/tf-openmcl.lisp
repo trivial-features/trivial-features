@@ -45,3 +45,6 @@
 ;;; what about ppc64?
 #+ppc-target (pushnew :ppc *features*)
 #+x8664-target (pushnew :x86-64 *features*)
+
+#+64-bit-host (pushnew :64-bit *features*)
+#+32-bit-host (pushnew :32-bit *features*)

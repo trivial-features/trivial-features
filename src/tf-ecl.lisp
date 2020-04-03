@@ -54,3 +54,5 @@
 #+(or armv5l armv6l armv7l) (pushnew :arm *features*)
 #+(or aarch64 armv8l armv8b aarch64_be) (pushnew :arm64 *features*)
 #+mipsel (pushnew :mips *features*)
+#+uint64-t (pushnew :64-bit *features*)
+#+(and uint32-t (not uint64-t)) (pushnew :32-bit *features*)

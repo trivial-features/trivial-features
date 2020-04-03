@@ -45,3 +45,5 @@
 ;;; For 64 bit CPUs the SCL pushes: :64bit
 
 #+amd64 (pushnew :x86-64 *features*)
+#+64bit (pushnew :64-bit *features*)
+#-64bit (pushnew :32-bit *features*)

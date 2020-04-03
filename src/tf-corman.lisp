@@ -37,3 +37,5 @@
 ;;;; CPU
 
 (pushnew :x86 *features*)
+;; Not sure about this, iiuc corman can run under 64bit windows...
+(pushnew :32-bit *features*)

@@ -56,3 +56,5 @@
 ;;; Lispworks already pushes :X86.
 
 #+powerpc (pushnew :ppc *features*)
+#+lispworks-64bit (pushnew :64-bit *features*)
+#+lispworks-32bit (pushnew :32-bit *features*)

@@ -70,3 +70,6 @@
   (when cpu
     (pushnew (intern (symbol-name cpu) '#:keyword)
              *features*)))
+
+#+word-size=64 (pushnew :64-bit *features*)
+#+word-size=32 (pushnew :32-bit *features*)
