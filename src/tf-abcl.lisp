@@ -44,3 +44,6 @@
 ;;;; CPU
 
 ;;; ABCL already pushes :x86-64
+(if (< 32 (logcount most-positive-fixnum))
+    (pushnew :64-bit *features*)
+    (pushnew :32-bit *features*))
