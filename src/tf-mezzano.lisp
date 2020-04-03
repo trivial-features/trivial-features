@@ -37,3 +37,4 @@
 ;;;; CPU
 
 ;;; Mezzano already pushes :X86-64.
+(pushnew :64-bit *features*)
