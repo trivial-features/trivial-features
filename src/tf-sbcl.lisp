@@ -46,6 +46,8 @@
   (setq *features* (remove :unix *features*))
   (pushnew :windows *features*))
 
+#+sunos (pushnew :solaris *features*)
+
 ;;;; CPU
 
 ;;; SBCL already pushes: :X86, :X86-64, :PPC, :32-BIT, and :64-BIT

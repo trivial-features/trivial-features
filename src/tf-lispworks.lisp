@@ -51,7 +51,7 @@
 #+(or darwin freebsd netbsd openbsd)
 (pushnew :bsd *features*)
 
-#+solaris2 (pushnew :sunos *features*)
+#+solaris2 (pushnew :solaris *features*)
 
 ;;;; CPU
 

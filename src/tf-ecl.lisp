@@ -44,7 +44,7 @@
 
 #+darwin (pushnew :unix *features*)
 #+win32 (pushnew :windows *features*)
-#+sun4sol2 (pushnew :sunos *features*)
+#+sun4sol2 (pushnew :solaris *features*)
 
 ;;;; CPU
 

@@ -40,8 +40,6 @@
 
 #+darwin (pushnew :bsd *features*)
 
-#+solaris (pushnew :sunos *features*)
-
 ;;;; CPU
 
 ;;; what about ppc64?
