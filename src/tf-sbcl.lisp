@@ -48,4 +48,5 @@
 
 ;;;; CPU
 
-;;; SBCL already pushes: :X86, :X86-64, :PPC, :32-BIT, and :64-BIT
+;;; SBCL already pushes: :X86, :X86-64, :PPC, and :64-BIT
+#-64-bit (pushnew :32-bit *features*)
