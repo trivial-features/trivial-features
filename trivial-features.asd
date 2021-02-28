@@ -1,4 +1,5 @@
-;;;; -*- Mode: lisp; indent-tabs-mode: nil -*-
+;;;; -*- Mode: LISP; Syntax: ANSI-Common-Lisp; Package: ASDF; Base: 10; -*-
+;;;; The above modeline is required for Genera. Do not change.
 ;;;
 ;;; trivial-features.asd --- ASDF system definition.
 ;;;
@@ -24,7 +25,7 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl clasp mezzano)
+#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl clasp mezzano genera)
 (error "Sorry, your Lisp is not supported.  Patches welcome.")
 
 (defsystem trivial-features
@@ -40,6 +41,7 @@
      #+cmu        (:file "tf-cmucl")
      #+cormanlisp (:file "tf-cormanlisp")
      #+ecl        (:file "tf-ecl")
+     #+genera     (:file "tf-genera")
      #+lispworks  (:file "tf-lispworks")
      #+openmcl    (:file "tf-openmcl")
      #+mcl        (:file "tf-mcl")
@@ -53,7 +55,7 @@
      #+mezzano    (:file "tf-mezzano")
      ))))
 
-#-mezzano
+#-(or genera mezzano)
 (defmethod perform ((o test-op) (c (eql (find-system 'trivial-features))))
   (operate 'load-op 'trivial-features-tests)
   (operate 'test-op 'trivial-features-tests))
