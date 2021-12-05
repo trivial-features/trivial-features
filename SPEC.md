@@ -41,6 +41,7 @@ Examples:
   - `:NETBSD`
   - `:OPENBSD`
   - `:FREEBSD`
+  - `:SUNOS`
 
 For convenience, `:UNIX` should be pushed when running on
 POSIX/UNIX-like operating system (that doesn't include Windows) and
@@ -64,6 +65,8 @@ These features should be mutually exclusive:
   - `:SPARC64`
   - `:HPPA`
   - `:HPPA64`
+  - `:ARM`
+  - `:ARM64`
 
 [add more ...]
 
