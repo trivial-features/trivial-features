@@ -98,7 +98,7 @@
   t)
 
 (deftest cpu.1
-    (mutually-exclusive-p '(:ppc :ppc64 :x86 :x86-64 :alpha :mips))
+    (mutually-exclusive-p '(:ppc :ppc64 :x86 :x86-64 :alpha :mips :arm :arm64))
   t)
 
 #+windows
