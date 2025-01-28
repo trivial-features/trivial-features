@@ -39,7 +39,7 @@
     ((:file "tf-allegro" :if-feature :allegro)
      (:file "tf-clisp" :if-feature :clisp)
      (:file "tf-cmucl" :if-feature :cmu)
-     (:file "tf-cormanlisp" :if-feature :cormanlisp)
+     (:file "tf-corman" :if-feature :cormanlisp)
      (:file "tf-ecl" :if-feature :ecl)
      (:file "tf-genera" :if-feature :genera)
      (:file "tf-lispworks" :if-feature :lispworks)
