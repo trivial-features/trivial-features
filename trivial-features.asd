@@ -25,7 +25,7 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl clasp mezzano genera dotcl cl-amiga)
+#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl clasp mezzano genera dotcl cl-amiga bliss)
 (error "Sorry, your Lisp is not supported.  Patches welcome.")
 
 (defsystem trivial-features
