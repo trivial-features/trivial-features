@@ -25,7 +25,7 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ;;; DEALINGS IN THE SOFTWARE.
 
-#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl clasp mezzano genera dotcl cl-amiga bliss)
+#-(or sbcl clisp allegro openmcl mcl mkcl lispworks ecl cmu scl cormanlisp abcl xcl mocl clasp mezzano genera dotcl cl-amiga bliss egcl)
 (error "Sorry, your Lisp is not supported.  Patches welcome.")
 
 (defsystem trivial-features
@@ -53,7 +53,8 @@
      (:file "tf-mocl" :if-feature :mocl)
      (:file "tf-clasp" :if-feature :clasp)
      (:file "tf-mezzano" :if-feature :mezzano)
-     (:file "tf-clamiga" :if-feature :cl-amiga)))))
+     (:file "tf-clamiga" :if-feature :cl-amiga)
+     (:file "tf-egcl" :if-feature :egcl)))))
 
 #-(or genera mezzano)
 (defmethod perform ((o test-op) (c (eql (find-system 'trivial-features))))
