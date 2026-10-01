@@ -1,4 +1,4 @@
-;;;; Run from any directory with torcl --no-init --load or sbcl --script.
+;;;; Run from any directory with egcl --no-init --load or sbcl --script.
 (require :asdf)
 (asdf:load-asd (merge-pathnames "../trivial-features.asd" *load-truename*))
 (asdf:load-system :trivial-features)
